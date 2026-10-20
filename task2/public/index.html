@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Real-Time WebSocket Chat Application with Chat Rooms and Private Direct Messaging.">
+  <title>NexusChat | Real-Time WebSocket Messaging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Ambient background glow effects -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- APP CONTAINER -->
+  <div id="app" class="app-root">
+
+    <!-- ========================================================= -->
+    <!-- VIEW 1: AUTHENTICATION (SIGN IN & REGISTER)               -->
+    <!-- ========================================================= -->
+    <section id="auth-view" class="view active-view" aria-label="Authentication View">
+      <div class="auth-card">
+        <header class="auth-header">
+          <div class="brand-badge">
+            <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="11" r="1"/>
+              <circle cx="8" cy="11" r="1"/>
+              <circle cx="16" cy="11" r="1"/>
+            </svg>
+            <span class="brand-name">Nexus<span class="brand-accent">Chat</span></span>
+          </div>
+          <h1 id="auth-title" class="auth-title">Welcome to Real-Time Chat</h1>
+          <p id="auth-desc" class="auth-desc">Sign in or create an account to start instant messaging across rooms and private direct channels.</p>
+        </header>
+
+        <!-- Tab Toggle Bar -->
+        <div class="tab-toggle" role="tablist">
+          <button type="button" id="tab-login" class="tab-btn active" role="tab" aria-selected="true">Sign In</button>
+          <button type="button" id="tab-register" class="tab-btn" role="tab" aria-selected="false">Create Account</button>
+          <div class="tab-indicator" id="tab-indicator"></div>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="login-form" class="auth-form active-form" novalidate>
+          <div class="form-group">
+            <label for="login-id">Username or Email</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <input type="text" id="login-id" placeholder="alex or alex@company.com" required autocomplete="username">
+            </div>
+            <span class="input-error" id="login-id-error"></span>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="login-password">Password</label>
+              <button type="button" class="demo-link" id="btn-autofill-demo">Fill Demo User</button>
+            </div>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="toggle-pw-btn" data-target="login-password" aria-label="Toggle password visibility">
+                👁️
+              </button>
+            </div>
+            <span class="input-error" id="login-password-error"></span>
+          </div>
+
+          <button type="submit" id="btn-login-submit" class="btn btn-primary btn-block">
+            <span class="btn-text">Connect to Chat</span>
+            <div class="btn-spinner hidden" id="login-spinner"></div>
+          </button>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="register-form" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="reg-name">Full Name</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <input type="text" id="reg-name" placeholder="Alex Morgan" required autocomplete="name">
+            </div>
+            <span class="input-error" id="reg-name-error"></span>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="reg-username">Username</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">@</span>
+                <input type="text" id="reg-username" placeholder="alex_morgan" required autocomplete="username" class="has-prefix">
+              </div>
+              <span class="input-error" id="reg-username-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-email">Email</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                <input type="email" id="reg-email" placeholder="alex@company.com" required autocomplete="email">
+              </div>
+              <span class="input-error" id="reg-email-error"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-password">Password (min 6 chars)</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" id="reg-password" placeholder="Create password" required autocomplete="new-password">
+              <button type="button" class="toggle-pw-btn" data-target="reg-password" aria-label="Toggle password visibility">
+                👁️
+              </button>
+            </div>
+            <span class="input-error" id="reg-password-error"></span>
+          </div>
+
+          <button type="submit" id="btn-register-submit" class="btn btn-secondary btn-block">
+            <span class="btn-text">Create Account & Join</span>
+            <div class="btn-spinner hidden" id="reg-spinner"></div>
+          </button>
+        </form>
+
+        <footer class="auth-footer">
+          <span class="tech-pill">⚡ WebSocket RFC 6455</span>
+          <span class="tech-pill">🔒 Instant E2E Messaging</span>
+          <span class="tech-pill">👥 Rooms & DMs</span>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- VIEW 2: REAL-TIME CHAT WORKSPACE                          -->
+    <!-- ========================================================= -->
+    <main id="chat-view" class="view" aria-label="Chat Workspace">
+      
+      <!-- MAIN CHAT LAYOUT WRAPPER -->
+      <div class="chat-workspace">
+
+        <!-- ==================== SIDEBAR ==================== -->
+        <aside class="chat-sidebar" id="chat-sidebar">
+          
+          <!-- Sidebar Header & Current User Profile -->
+          <div class="sidebar-header">
+            <div class="user-profile-summary">
+              <div class="avatar-wrapper">
+                <div class="user-avatar" id="my-avatar">U</div>
+                <span class="status-indicator online" id="my-status-indicator" title="WebSocket Online"></span>
+              </div>
+              <div class="user-details">
+                <span class="user-display-name" id="my-name">Loading...</span>
+                <span class="user-handle" id="my-handle">@user</span>
+              </div>
+            </div>
+
+            <!-- Top Actions: Sound toggle & Logout -->
+            <div class="header-actions">
+              <button type="button" id="btn-sound-toggle" class="icon-action-btn active" title="Toggle audio notification sounds">
+                <span id="sound-icon">🔔</span>
+              </button>
+              <button type="button" id="btn-logout" class="icon-action-btn danger" title="Log out from chat session">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" x2="9" y1="12" y2="12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Connection Status Ribbon -->
+          <div class="connection-ribbon connected" id="ws-status-ribbon">
+            <span class="pulse-dot"></span>
+            <span class="ribbon-text" id="ws-status-text">WebSocket: Connected Live</span>
+          </div>
+
+          <!-- Sidebar Tabs: Rooms vs Direct Messages -->
+          <div class="sidebar-nav">
+            <button type="button" class="nav-tab active" id="tab-nav-rooms">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Rooms</span>
+              <span class="nav-badge" id="badge-rooms-count">4</span>
+            </button>
+            <button type="button" class="nav-tab" id="tab-nav-dms">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span>Direct Messages</span>
+              <span class="nav-badge unread hidden" id="badge-dms-unread">0</span>
+            </button>
+          </div>
+
+          <!-- Search Filter Input -->
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" x2="16.65" y1="21" y2="16.65"/>
+            </svg>
+            <input type="text" id="channel-search-input" placeholder="Filter channels or people...">
+          </div>
+
+          <!-- LIST 1: CHAT ROOMS -->
+          <div class="channels-section active-section" id="section-rooms">
+            <div class="section-title-row">
+              <span class="section-label">PUBLIC CHANNELS</span>
+              <button type="button" class="add-channel-btn" id="btn-open-create-room" title="Create custom room">
+                + Add Room
+              </button>
+            </div>
+            <ul class="channels-list" id="rooms-list" role="listbox">
+              <!-- Populated dynamically -->
+              <li class="empty-list-placeholder">Loading rooms...</li>
+            </ul>
+          </div>
+
+          <!-- LIST 2: DIRECT MESSAGES -->
+          <div class="channels-section" id="section-dms">
+            <div class="section-title-row">
+              <span class="section-label">DIRECT CONVERSATIONS</span>
+              <span class="online-counter" id="online-users-count">0 online</span>
+            </div>
+            <ul class="channels-list" id="users-list" role="listbox">
+              <!-- Populated dynamically -->
+              <li class="empty-list-placeholder">Loading users...</li>
+            </ul>
+          </div>
+
+        </aside>
+
+        <!-- ==================== MAIN CHAT PANE ==================== -->
+        <section class="chat-main">
+          
+          <!-- Chat Top Navigation / Header -->
+          <header class="chat-header">
+            <div class="chat-header-info">
+              <button type="button" class="mobile-menu-toggle" id="btn-mobile-sidebar" aria-label="Toggle sidebar">
+                ☰
+              </button>
+              
+              <div class="target-avatar-container" id="target-avatar-container">
+                <div class="target-avatar" id="target-avatar">#</div>
+                <span class="target-status-dot online hidden" id="target-status-dot"></span>
+              </div>
+
+              <div class="target-text-meta">
+                <div class="target-title-row">
+                  <h2 class="target-name" id="target-name">#general</h2>
+                  <span class="target-type-badge" id="target-badge">Public Room</span>
+                </div>
+                <p class="target-topic" id="target-topic">Company-wide discussion and general inquiries</p>
+              </div>
+            </div>
+
+            <div class="chat-header-actions">
+              <div class="realtime-badge" title="Instant bidirectional messaging active">
+                <span class="pulse-dot"></span>
+                <span>REAL-TIME WS</span>
+              </div>
+            </div>
+          </header>
+
+          <!-- Messages Stream Container -->
+          <div class="messages-container" id="messages-container">
+            <div class="messages-feed" id="messages-feed">
+              <!-- Dynamically populated messages -->
+            </div>
+            <div id="messages-anchor"></div>
+          </div>
+
+          <!-- Live Typing Indicator Notification -->
+          <div class="typing-banner hidden" id="typing-banner">
+            <div class="typing-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="typing-text" id="typing-text">Someone is typing...</span>
+          </div>
+
+          <!-- Message Composer Area -->
+          <footer class="chat-composer">
+            <!-- Quick Emoji Bar -->
+            <div class="quick-emoji-bar">
+              <span class="emoji-label">Quick Reactions:</span>
+              <div class="emoji-chips">
+                <button type="button" class="emoji-chip" data-emoji="👍">👍</button>
+                <button type="button" class="emoji-chip" data-emoji="❤️">❤️</button>
+                <button type="button" class="emoji-chip" data-emoji="🚀">🚀</button>
+                <button type="button" class="emoji-chip" data-emoji="🔥">🔥</button>
+                <button type="button" class="emoji-chip" data-emoji="🎉">🎉</button>
+                <button type="button" class="emoji-chip" data-emoji="😂">😂</button>
+                <button type="button" class="emoji-chip" data-emoji="👀">👀</button>
+                <button type="button" class="emoji-chip" data-emoji="💯">💯</button>
+              </div>
+            </div>
+
+            <!-- Message Input Form -->
+            <form id="message-form" class="message-form">
+              <div class="composer-input-wrapper">
+                <textarea
+                  id="message-input"
+                  placeholder="Send a message to #general... (Enter to send, Shift+Enter for new line)"
+                  rows="1"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" id="btn-send-message" class="btn-send" title="Send message (Enter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </form>
+          </footer>
+
+        </section>
+
+      </div>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: CREATE CHAT ROOM                                   -->
+    <!-- ========================================================= -->
+    <div class="modal-backdrop hidden" id="modal-create-room">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Create New Chat Room</h3>
+          <button type="button" class="modal-close-btn" id="btn-close-modal">✕</button>
+        </div>
+        <form id="create-room-form">
+          <div class="form-group">
+            <label for="new-room-name">Room Name</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">#</span>
+              <input type="text" id="new-room-name" placeholder="ai-research" required class="has-prefix">
+            </div>
+            <span class="input-hint">Letters, numbers, and hyphens only (e.g. frontend-team)</span>
+          </div>
+
+          <div class="form-group">
+            <label for="new-room-topic">Description / Topic</label>
+            <div class="input-wrapper">
+              <input type="text" id="new-room-topic" placeholder="Discussing models, prompts, and architecture">
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-outline" id="btn-cancel-create-room">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit-create-room">Create Channel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/sound.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/wsClient.js"></script>
+  <script src="js/chatApp.js"></script>
+</body>
+</html>

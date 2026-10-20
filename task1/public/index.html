@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enterprise-Grade User Authentication System with Secure Login, Registration, and Protected Dashboard Routes.">
+  <title>NexusAuth | Secure User Authentication System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Ambient background glow orbs -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Main Application Wrapper -->
+  <div class="app-container">
+
+    <!-- ============================================================== -->
+    <!-- VIEW 1: AUTHENTICATION (SIGN IN & REGISTER)                   -->
+    <!-- ============================================================== -->
+    <main id="auth-view" class="view active-view" aria-label="Authentication View">
+      <div class="auth-card">
+        <!-- Brand Header -->
+        <header class="auth-header">
+          <div class="brand-badge">
+            <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span class="brand-text">Nexus<span class="brand-highlight">Auth</span></span>
+          </div>
+          <h1 id="auth-title" class="auth-title">Welcome Back</h1>
+          <p id="auth-subtitle" class="auth-subtitle">Sign in to access your protected workspace and secure credentials.</p>
+        </header>
+
+        <!-- Tab Toggle Bar -->
+        <div class="tab-switcher" role="tablist" aria-label="Sign In or Sign Up">
+          <button id="tab-login-btn" class="tab-btn active" role="tab" aria-selected="true" aria-controls="login-form-container">
+            Sign In
+          </button>
+          <button id="tab-register-btn" class="tab-btn" role="tab" aria-selected="false" aria-controls="register-form-container">
+            Create Account
+          </button>
+          <div class="tab-slider" id="tab-slider"></div>
+        </div>
+
+        <!-- Form Containers -->
+        <div class="forms-wrapper">
+          
+          <!-- LOGIN FORM -->
+          <section id="login-form-container" class="form-container active-form" role="tabpanel" aria-labelledby="tab-login-btn">
+            <form id="login-form" novalidate>
+              <div class="form-group">
+                <label for="login-email">Email Address</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                  <input type="email" id="login-email" name="email" placeholder="name@company.com" required autocomplete="email">
+                </div>
+                <span class="field-error" id="login-email-error"></span>
+              </div>
+
+              <div class="form-group">
+                <div class="label-with-action">
+                  <label for="login-password">Password</label>
+                  <button type="button" class="link-btn" id="demo-credentials-btn" title="Click to autofill sample credentials">Autofill Demo</button>
+                </div>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  <input type="password" id="login-password" name="password" placeholder="••••••••••••" required autocomplete="current-password">
+                  <button type="button" class="pw-toggle-btn" id="toggle-login-password" aria-label="Toggle password visibility">
+                    <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="m9.88 9.88 4.24 4.24m-7.07-1.41C5.68 11.23 4 12 4 12s3-7 10-7c1.6 0 3.05.51 4.27 1.34M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68m-5.46 3.73A10.02 10.02 0 0 1 12 19c-7 0-10-7-10-7a13.16 13.16 0 0 1 3.24-4.24"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  </button>
+                </div>
+                <span class="field-error" id="login-password-error"></span>
+              </div>
+
+              <div class="form-options">
+                <label class="checkbox-label" for="remember-me">
+                  <input type="checkbox" id="remember-me" name="remember">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-text">Keep me logged in</span>
+                </label>
+                <span class="badge-tag">256-bit Encrypted</span>
+              </div>
+
+              <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block">
+                <span class="btn-text">Authenticate & Enter</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                <div class="spinner hidden" id="login-spinner"></div>
+              </button>
+            </form>
+          </section>
+
+          <!-- REGISTER FORM -->
+          <section id="register-form-container" class="form-container" role="tabpanel" aria-labelledby="tab-register-btn">
+            <form id="register-form" novalidate>
+              <div class="form-group">
+                <label for="reg-name">Full Name</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <input type="text" id="reg-name" name="name" placeholder="Alex Morgan" required autocomplete="name">
+                </div>
+                <span class="field-error" id="reg-name-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-email">Work Email</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                  <input type="email" id="reg-email" name="email" placeholder="alex.morgan@company.com" required autocomplete="email">
+                </div>
+                <span class="field-error" id="reg-email-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-password">Create Master Password</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  <input type="password" id="reg-password" name="password" placeholder="Create strong password" required autocomplete="new-password">
+                  <button type="button" class="pw-toggle-btn" id="toggle-reg-password" aria-label="Toggle password visibility">
+                    <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="m9.88 9.88 4.24 4.24m-7.07-1.41C5.68 11.23 4 12 4 12s3-7 10-7c1.6 0 3.05.51 4.27 1.34M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68m-5.46 3.73A10.02 10.02 0 0 1 12 19c-7 0-10-7-10-7a13.16 13.16 0 0 1 3.24-4.24"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Live Password Strength Meter -->
+                <div class="strength-meter-container" id="strength-meter-box">
+                  <div class="strength-header">
+                    <span class="strength-label">Password Strength:</span>
+                    <span class="strength-status" id="strength-text">Too Short</span>
+                  </div>
+                  <div class="strength-bars">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                    <div class="bar bar-4"></div>
+                  </div>
+                  <ul class="strength-checklist" id="strength-checklist">
+                    <li id="rule-length" class="rule-item">
+                      <span class="rule-icon">○</span> 8+ characters
+                    </li>
+                    <li id="rule-lower" class="rule-item">
+                      <span class="rule-icon">○</span> Lowercase letter
+                    </li>
+                    <li id="rule-upper" class="rule-item">
+                      <span class="rule-icon">○</span> Uppercase letter
+                    </li>
+                    <li id="rule-number" class="rule-item">
+                      <span class="rule-icon">○</span> Number (0-9)
+                    </li>
+                    <li id="rule-symbol" class="rule-item">
+                      <span class="rule-icon">○</span> Symbol (!@#$%)
+                    </li>
+                  </ul>
+                </div>
+                <span class="field-error" id="reg-password-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-confirm-password">Confirm Password</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                  <input type="password" id="reg-confirm-password" name="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password">
+                </div>
+                <span class="field-error" id="reg-confirm-error"></span>
+              </div>
+
+              <button type="submit" id="register-submit-btn" class="btn btn-secondary btn-block">
+                <span class="btn-text">Create Secure Account</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <line x1="19" x2="19" y1="8" y2="14"/>
+                  <line x1="22" x2="16" y1="11" y2="11"/>
+                </svg>
+                <div class="spinner hidden" id="register-spinner"></div>
+              </button>
+            </form>
+          </section>
+
+        </div>
+
+        <!-- Security Guarantee Footer -->
+        <footer class="auth-card-footer">
+          <div class="security-pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Bcrypt Hashing</span>
+          </div>
+          <div class="security-pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m4.93 4.93 4.24 4.24"/>
+              <path d="m14.83 9.17 4.24-4.24"/>
+              <path d="m14.83 14.83 4.24 4.24"/>
+              <path d="m9.17 14.83-4.24 4.24"/>
+            </svg>
+            <span>JWT Session Auth</span>
+          </div>
+          <div class="security-pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="3" rx="2"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>Guarded Routes</span>
+          </div>
+        </footer>
+      </div>
+    </main>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 2: PROTECTED DASHBOARD (ACCESSIBLE ONLY AFTER AUTH)      -->
+    <!-- ============================================================== -->
+    <div id="dashboard-view" class="view" aria-label="Protected Dashboard View">
+      
+      <!-- Top Navigation Header -->
+      <nav class="dash-navbar">
+        <div class="nav-brand">
+          <div class="brand-badge mini">
+            <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span class="brand-text">Nexus<span class="brand-highlight">Auth</span></span>
+          </div>
+          <div class="route-guard-badge" title="This perimeter requires a validated cryptographic bearer token">
+            <span class="status-dot pulse"></span>
+            <span>PROTECTED ROUTE ACTIVE</span>
+          </div>
+        </div>
+
+        <div class="nav-actions">
+          <!-- User Profile Summary Pill -->
+          <div class="user-pill" id="nav-user-pill">
+            <div class="avatar" id="nav-user-avatar">U</div>
+            <div class="user-meta">
+              <span class="user-name" id="nav-user-name">Loading...</span>
+              <span class="user-role" id="nav-user-role">Authenticated</span>
+            </div>
+          </div>
+
+          <!-- Sign Out Button -->
+          <button id="logout-btn" class="btn btn-outline-danger" title="Securely terminate your authenticated session">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" x2="9" y1="12" y2="12"/>
+            </svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Dashboard Main Container -->
+      <div class="dash-content">
+        
+        <!-- Hero Welcome Card -->
+        <section class="dash-hero">
+          <div class="hero-left">
+            <div class="welcome-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+              <span>Security Perimeter Status: Level 3 Verified</span>
+            </div>
+            <h2 class="hero-greeting" id="hero-greeting">Welcome back, <span id="hero-user-name">User</span>!</h2>
+            <p class="hero-desc">
+              You are currently authenticated in the protected zone. Your session is signed with a JSON Web Token and every request to the backend is cryptographically authenticated.
+            </p>
+          </div>
+          <div class="hero-right">
+            <div class="session-timer-card">
+              <div class="timer-title">Active Session Token</div>
+              <div class="timer-badge" id="token-status-badge">
+                <span class="status-dot online"></span>
+                <span>JWT Valid (24h)</span>
+              </div>
+              <div class="timer-details">
+                <span class="timer-label">Signed-in Email:</span>
+                <span class="timer-value" id="hero-user-email">email@domain.com</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Metrics Overview Grid -->
+        <section class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Security Score</span>
+              <div class="metric-icon icon-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value text-cyan" id="metric-score">98%</div>
+            <div class="metric-meta">Bcrypt salt: 10 rounds</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Authentication Protocol</span>
+              <div class="metric-icon icon-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value text-blue" id="metric-auth">JWT + Cookie</div>
+            <div class="metric-meta">HttpOnly SameSite Token</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Account Clearance</span>
+              <div class="metric-icon icon-terracotta">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </div>
+            </div>
+            <div class="metric-value text-terracotta" id="metric-role">Standard Member</div>
+            <div class="metric-meta" id="metric-last-login">Last login: Today</div>
+          </div>
+        </section>
+
+        <!-- Protected Interactive Tabs: Vault, Profile & Audit Logs -->
+        <section class="dash-tabs-section">
+          <div class="dash-tab-nav">
+            <button class="dash-tab-btn active" id="btn-tab-vault">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="18" height="18" x="3" y="3" rx="2"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <span>Protected Enterprise Vault</span>
+            </button>
+            <button class="dash-tab-btn" id="btn-tab-profile">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span>Account & Security Settings</span>
+            </button>
+            <button class="dash-tab-btn" id="btn-tab-audit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              <span>Security Activity Log</span>
+            </button>
+          </div>
+
+          <!-- TAB PANEL 1: PROTECTED VAULT -->
+          <div class="dash-tab-panel active" id="panel-vault">
+            <div class="panel-card">
+              <div class="panel-header">
+                <div>
+                  <h3 class="panel-title">Guarded Resource Vault</h3>
+                  <p class="panel-desc">These records are fetched from <code>/api/protected/vault</code>. Unauthenticated requests to this endpoint will instantly receive <strong>401 Unauthorized</strong>.</p>
+                </div>
+                <button id="refresh-vault-btn" class="btn btn-sm btn-outline-cyan">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                    <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                    <path d="M21 21v-5h-5"/>
+                  </svg>
+                  <span>Re-verify Vault Access</span>
+                </button>
+              </div>
+
+              <!-- Vault Items Table -->
+              <div class="vault-table-wrapper">
+                <table class="vault-table">
+                  <thead>
+                    <tr>
+                      <th>Resource / Key Name</th>
+                      <th>Environment</th>
+                      <th>Encrypted Secret Token</th>
+                      <th>Last Rotated</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="vault-items-tbody">
+                    <!-- Populated dynamically -->
+                    <tr>
+                      <td colspan="5" class="loading-cell">Loading protected secrets...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB PANEL 2: PROFILE & SECURITY SETTINGS -->
+          <div class="dash-tab-panel" id="panel-profile">
+            <div class="profile-grid">
+              
+              <!-- Update Name Card -->
+              <div class="panel-card">
+                <h3 class="panel-title">Update Display Name</h3>
+                <p class="panel-desc">Update your authenticated account profile name.</p>
+                <form id="update-profile-form" class="settings-form">
+                  <div class="form-group">
+                    <label for="edit-name">Display Name</label>
+                    <div class="input-wrapper">
+                      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      <input type="text" id="edit-name" name="name" required placeholder="Alex Morgan">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+                </form>
+              </div>
+
+              <!-- Update Password Card -->
+              <div class="panel-card">
+                <h3 class="panel-title">Change Master Password</h3>
+                <p class="panel-desc">Re-encrypt your account credentials with a new password.</p>
+                <form id="change-password-form" class="settings-form">
+                  <div class="form-group">
+                    <label for="current-password">Current Password</label>
+                    <div class="input-wrapper">
+                      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                      <input type="password" id="current-password" name="currentPassword" required placeholder="••••••••••••">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="new-password">New Password (8+ characters)</label>
+                    <div class="input-wrapper">
+                      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      </svg>
+                      <input type="password" id="new-password" name="newPassword" required placeholder="••••••••••••">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-secondary" id="save-password-btn">Update Password</button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TAB PANEL 3: AUDIT LOGS -->
+          <div class="dash-tab-panel" id="panel-audit">
+            <div class="panel-card">
+              <h3 class="panel-title">Security Event Audit Trail</h3>
+              <p class="panel-desc">Real-time log of security events associated with your user identity.</p>
+              <div class="activity-timeline" id="activity-timeline-container">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fb7f155b-ed84-41d7-aed1-f1db3d1dff4c",
+    "name": "Alice Vance",
+    "username": "alice_1788537709090",
+    "email": "alice_1788537709090@example.com",
+    "passwordHash": "$2b$10$ONYwkxjhFYDFAqrvzVVIGeXQsVH6HFPvj5U0VjquB1HSvkftIj9QG",
+    "avatarColor": "#f59e0b",
+    "createdAt": "2026-09-04T16:01:49.251Z",
+    "lastSeen": "2026-09-04T16:01:49.351Z"
+  },
+  {
+    "id": "4c0467d4-1fa2-4178-9887-812b4f8769ca",
+    "name": "Bob Miller",
+    "username": "bob_1788537709090",
+    "email": "bob_1788537709090@example.com",
+    "passwordHash": "$2b$10$BDpKjAA8Y8vcC9jzy7f/hOOfogslrn19h7bJdAhHHkpnAWT.RW/F.",
+    "avatarColor": "#c34a36",
+    "createdAt": "2026-09-04T16:01:49.320Z",
+    "lastSeen": "2026-09-04T16:01:49.353Z"
+  },
+  {
+    "id": "613a2ad6-eb5d-47c0-abfc-4e4b1cb33c29",
+    "name": "Sarah Connor",
+    "username": "sarah_c",
+    "email": "sarah@resistance.org",
+    "passwordHash": "$2b$10$08aP/nO5D2H.CdqBjjkeiO.M6jtTs49vtOTmv9LeuP6rj.Tom8unG",
+    "avatarColor": "#00c9a7",
+    "createdAt": "2026-09-04T16:03:33.598Z",
+    "lastSeen": "2026-09-04T16:07:13.083Z"
+  }
+]

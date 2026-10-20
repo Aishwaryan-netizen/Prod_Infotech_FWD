@@ -1,0 +1,43 @@
+[
+  {
+    "id": "general",
+    "name": "General",
+    "topic": "Company-wide discussion and general inquiries",
+    "icon": "💬",
+    "isDefault": true,
+    "createdAt": "2026-09-04T16:01:22.904Z"
+  },
+  {
+    "id": "tech-talk",
+    "name": "Tech & Architecture",
+    "topic": "Engineering discussions, code reviews, and tech stacks",
+    "icon": "⚡",
+    "isDefault": true,
+    "createdAt": "2026-09-04T16:01:22.904Z"
+  },
+  {
+    "id": "announcements",
+    "name": "Announcements",
+    "topic": "Official broadcasts, milestone releases, and news",
+    "icon": "📢",
+    "isDefault": true,
+    "createdAt": "2026-09-04T16:01:22.904Z"
+  },
+  {
+    "id": "random",
+    "name": "Water Cooler",
+    "topic": "Casual conversations, memes, and off-topic fun",
+    "icon": "☕",
+    "isDefault": true,
+    "createdAt": "2026-09-04T16:01:22.904Z"
+  },
+  {
+    "id": "dev-ops-1788537709090",
+    "name": "dev-ops-1788537709090",
+    "topic": "Infrastructure & Kubernetes",
+    "icon": "#",
+    "createdBy": "alice_1788537709090",
+    "isDefault": false,
+    "createdAt": "2026-09-04T16:01:49.347Z"
+  }
+]

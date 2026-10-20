@@ -1,0 +1,57 @@
+[
+  {
+    "id": "356f3e0c-b4d2-42e5-b2c7-2b33bc0c5054",
+    "type": "room",
+    "targetId": "general",
+    "senderId": "fb7f155b-ed84-41d7-aed1-f1db3d1dff4c",
+    "senderName": "Alice Vance",
+    "senderUsername": "alice_1788537709090",
+    "senderAvatarColor": "#f59e0b",
+    "text": "Hello everyone in general! (1788537709090)",
+    "timestamp": "2026-09-04T16:01:49.340Z"
+  },
+  {
+    "id": "748ed548-1824-4f4a-90f0-d70a15b8c2a9",
+    "type": "direct",
+    "targetId": "4c0467d4-1fa2-4178-9887-812b4f8769ca",
+    "senderId": "fb7f155b-ed84-41d7-aed1-f1db3d1dff4c",
+    "senderName": "Alice Vance",
+    "senderUsername": "alice_1788537709090",
+    "senderAvatarColor": "#f59e0b",
+    "text": "Hey Bob, this is a private direct message! (1788537709090)",
+    "timestamp": "2026-09-04T16:01:49.342Z"
+  },
+  {
+    "id": "4061c9ea-64ec-401a-8ddf-f53ca2e4e93b",
+    "type": "room",
+    "targetId": "general",
+    "senderId": "613a2ad6-eb5d-47c0-abfc-4e4b1cb33c29",
+    "senderName": "Sarah Connor",
+    "senderUsername": "sarah_c",
+    "senderAvatarColor": "#00c9a7",
+    "text": "Hello team, systems are online!",
+    "timestamp": "2026-09-04T16:04:09.040Z"
+  },
+  {
+    "id": "af498f6e-283c-4795-aa5b-e1e184d7b2c0",
+    "type": "room",
+    "targetId": "random",
+    "senderId": "613a2ad6-eb5d-47c0-abfc-4e4b1cb33c29",
+    "senderName": "Sarah Connor",
+    "senderUsername": "sarah_c",
+    "senderAvatarColor": "#00c9a7",
+    "text": "Coffee break time!",
+    "timestamp": "2026-09-04T16:04:53.016Z"
+  },
+  {
+    "id": "e33b6ebb-834d-42ac-933f-791b6af60d59",
+    "type": "room",
+    "targetId": "random",
+    "senderId": "613a2ad6-eb5d-47c0-abfc-4e4b1cb33c29",
+    "senderName": "Sarah Connor",
+    "senderUsername": "sarah_c",
+    "senderAvatarColor": "#00c9a7",
+    "text": "❤️  ❤️  ❤️  ❤️",
+    "timestamp": "2026-09-04T16:06:56.629Z"
+  }
+]
